@@ -1,3 +1,5 @@
+from ortools.sat.python import cp_model
+
 def _decode_kakurasu_string( task:str ) -> tuple[list[int],list[int]]:
     """
     Decodes the given Kakurasu instance.
@@ -96,9 +98,20 @@ def _solve_kakurasu( colnums:list[int], rownums:list[int] ) -> list[list[int]]:
     grid : list[list[int]]
         The solution grid as a list of row-lists, with 0/1 values.
     """
-    print('!!! TODO: implement Kakurasu solver !!!')
+    model = cp_model.CpModel()
+    vars = [ [ model.new_int_var( 0, 1, f'x_{i}_{j}' ) for j in range(len(colnums)) ] for i in range(len(rownums)) ]
+    
+    for i in range(len(rownums)):
+        model.add( sum( vars[i][j]*(j+1) for j in range(len(colnums)) ) == rownums[i] )
+    for j in range(len(colnums)):
+        model.add( sum( vars[i][j]*(i+1) for i in range(len(rownums)) ) == colnums[j] )
+    
+    solver = cp_model.CpSolver()
+    status = solver.Solve(model)
+    if status.name == 'INFEASIBLE':
+        raise ValueError( 'INFEASIBLE...' )
 
-    return [ [ 1 for j in range(len(colnums)) ] for i in range(len(rownums)) ]
+    return [ [ solver.value( vars[i][j] ) for j in range(len(colnums)) ] for i in range(len(rownums)) ]
 
 def solve_kakurasu( task:str, print_task:bool= False, print_solution:bool= False ) -> str:
     """
