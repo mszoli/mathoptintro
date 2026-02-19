@@ -78,6 +78,12 @@ def schedule_jobs_on_a_single_machine( processing_times:list[int], weights:list[
     # constraint: jobs cannot overlap
     model.add_no_overlap( jobs )
 
+
+    # minimize makespan
+    #span = model.new_int_var(0, UB, "span")
+    #model.add_max_equality(span, [j.end_expr() for j in jobs])
+    #model.minimize(span)
+
     # objective: weighted sum of completion times
     model.minimize( sum( weights[i] * jobs[i].end_expr() for i in JOBS ) )
     
@@ -107,7 +113,45 @@ def schedule_jobs_on_identical_machines( processing_times:list[int], weights:lis
     nmachines : int
         Number of machines.
     """
-    raise NotImplementedError( 'function is not implemented' )
+
+    # INIT
+    n = len(processing_times)
+    UB = max(release_times) + sum(processing_times) # upper bound on the makespan (could be more clever)
+    
+    JOBS = range(n)
+    
+    # BUILD MODEL
+    model = cp_model.CpModel()
+
+    flags = [ [model.new_bool_var(f"on_{i}_{j}") for j in range(nmachines)] for i in range(n) ]
+    
+    for i in range(n):
+        model.add(sum(flags[i]) == 1)
+    
+    jobs = [ model.new_optional_fixed_size_interval_var(
+        start= model.new_int_var( release_times[i], UB, f'start_{i}_{j}' ),
+        size=  processing_times[i],
+        is_present= flags[i][j],
+        name=  f'job_{i}_{j}'
+    ) for i in range(n) for j in range(nmachines) ]
+
+    # constraint: jobs cannot overlap
+    model.add_no_overlap( jobs )
+
+    # objective: weighted sum of completion times
+    model.minimize( sum( weights[i] * jobs[i].end_expr() for i in JOBS ) )
+    
+    # SOLVE PROBLEM
+    solver = cp_model.CpSolver()
+    #solver.parameters.log_search_progress = True
+    #solver.parameters.max_time_in_seconds = 30
+    status = solver.solve( model )
+
+    print( f'status: {solver.status_name(status)} | total time: {solver.WallTime():.2f} | objective: {int(solver.objective_value)}  (best lb: {int(solver.best_objective_bound)})' )
+
+    if status in [ cp_model.FEASIBLE, cp_model.OPTIMAL ]:
+        _print_schedule( processing_times, weights, release_times, [ solver.value(jobs[i].start_expr()) for i in JOBS ] )
+
 
 if __name__ == '__main__':
     from scheduling_instances import random_single_machine_instance
@@ -118,4 +162,6 @@ if __name__ == '__main__':
 
     # solve problem
     schedule_jobs_on_a_single_machine( p, w, r )
+    schedule_jobs_on_identical_machines( p, w, r, 2 )
+
     
