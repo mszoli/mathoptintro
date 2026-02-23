@@ -49,6 +49,7 @@ Korlátozás programozás: interval variables, non-overlapping constraints.
 Egészértékű programozás: bevezetés.
 
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/knapsack.py" target="_blank">`knapsack.py`</a>
+(<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/packing_instances.py" target="_blank">`packing_instances.py`</a>)
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/sudoku.py" target="_blank">`sudoku.py`</a>
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/queens.py" target="_blank">`queens.py`</a>
 

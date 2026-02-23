@@ -22,7 +22,7 @@ $$
 That is, the model consists of:
     
 - $n$ continuous variables (or *columns*): $\mathbf{x}_1,\ldots,\mathbf{x}_n$;
-- $m$ linear inequalities (or *rows*) (not counting the non-negativity constraints), where $a_{ij}\in\mathbb{R}$ ($1\leq i\leq m$, $1\leq j\leq n$);
+- $m$ linear inequalities (or *rows*) (not counting the non-negativity constraints), where $a_{ij}\in\mathbb{R}$, $b_i\in\mathbb{R}$;
 - and a linear objective function, where $c_j\in\mathbb{R}$ ($1\leq j\leq n$).
 
 !!! tip "Any LP can be transformed into this general form"
@@ -40,7 +40,7 @@ $$
 \begin{aligned}
 \text{maximize} \quad & \sum_{i=1}^m \pi_i b_i \\
 \text{subject to} \quad 
-& \sum_{i=1}^m \pi_i  a_{ij} \leq c_j && \text{for all}\ j = 1,\ldots,n \\
+& \sum_{i=1}^m \pi_i a_{ij} \leq c_j && \text{for all}\ j = 1,\ldots,n \\
 & \pi_i \geq 0 && \text{for all}\ i = 1,\ldots,m
 \end{aligned}
 $$
@@ -53,7 +53,7 @@ $$
 
 Consider a $(\bar{\mathbf{x}},\bar{\pi})$ primal-dual solution pair.
 That is, $\bar{\mathbf{x}}$ is a feasible solution for the primal problem, and $\bar{\pi}$ is a feasible solution for the dual problem.
-Clearly, $\bar{\pi}b \leq \bar{\pi}A\mathbf{x} \leq c\bar{\mathbf{x}}$, thus,
+Clearly, $\bar{\pi}b \leq \bar{\pi}A\bar{\mathbf{x}} \leq c\bar{\mathbf{x}}$, thus,
 
 $$
 \max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\} \leq \min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ 0 \leq \mathbf{x} \right\}
@@ -71,27 +71,26 @@ $$
 
 ### Simplex method
 
-The **simplex method** is originated from *George Dantzig*, and it is a vertex-based algorithm.
-It starts from a basic feasible solution and at each step, moves to an adjacent vertex of the polyhedron to improve the objective value (or stop when no improving adjacent vertex exists).
+The vertex-based **simplex method** is originated from *George Dantzig*.
+It starts from a basic feasible solution and moves to an adjacent vertex of the polyhedron at each step to improve the objective value (or stop when no improving adjacent vertex exists).
+
+In theory, the worst-case running time is exponential.
+However, in practice, the simplex method is extremely efficient; it solves even very large real-world LPs quickly.
 
 !!! quote "Simplex method"
     Dantzig, G. B. (1951).
     *Maximization of a linear function of variables subject to linear inequalities*.
     Activity analysis of production and allocation, 13(1), 339-347.
 
-In theory, the worst-case running time is exponential.
-However, in practice, simplex is extremely efficient; it solves even very large real-world LPs quickly.
-
 ### Polynomial time algorithms
 
 Leonig Khachiyan's **ellipsoid method** proved that LPs can be solved in polynomial time.
+However, it is rarely competitive in practice.
 
 !!! quote "Ellipsoid method"
     Khachiyan, L. G. (1979).
     *A polynomial algorithm in linear programming*.
     In Doklady Akademii Nauk (Vol. 244, No. 5, pp. 1093-1096). Russian Academy of Sciences.
-
-Although it runs in polynomial time, it is rarely competitive in practice.
 
 Later, **interior-point methods** combined the polynomial time guarantees with strong practical performance.
 
