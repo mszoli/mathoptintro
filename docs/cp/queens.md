@@ -68,7 +68,7 @@ For the full code, see file <a href="https://github.com/hmarko89/mathoptintro/bl
 ```python
 from ortools.sat.python import cp_model
 
-def solve_queens( n:int ) -> None:
+def solve_queens_cp( n:int ) -> None:
     """
     Solves the n-queens puzzle as a CP with Google OR-Tools CP-SAT.
 

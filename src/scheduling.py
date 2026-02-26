@@ -158,7 +158,7 @@ if __name__ == '__main__':
     
     # random instances
     p, w, d, r = random_single_machine_instance( 16 )
-    #p, w, d, r = random_instance( 17 ) # struggling (check log, set time limit)
+    #p, w, d, r = random_single_machine_instance( 17 ) # struggling (check log, set time limit)
 
     # solve problem
     schedule_jobs_on_a_single_machine( p, w, r )

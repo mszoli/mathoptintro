@@ -22,7 +22,7 @@ Let $\mathcal{R} = \{1,\ldots,n\}$ be the set of rectangles, where
 
 ### Variables
 
-Let variables $\mathbf{x}_j$ and $\mathbf{y}_j$ denote the coordinates of the bottom-left corner of rectangle $j$ ($1\leq j\leq n$) in the packing.
+Let variables $\mathbf{x}_j$ and $\mathbf{y}_j$ denote the coordinates of the bottom-left corner of rectangle $j\in \mathcal{R}$ in the packing.
 Clearly, $0 \leq \mathbf{x}_j \leq W_C - w_j$ and $0 \leq \mathbf{y}_j \leq H_C - h_j$.
 
 Let the interval variables $\mathbf{I}^x_j = [\mathbf{x}_j,\mathbf{x}_j + w_j]$ and $\mathbf{I}^y_j = [\mathbf{y}_j,\mathbf{y}_j + h_j]$ associated with rectangle $j$ express the projection of the rectangle (as intervals) onto the $x$ and $y$ axes, respectively.

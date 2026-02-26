@@ -41,8 +41,11 @@ Let $\mathcal{J}=\{1,\ldots,n\}$.
     OR-Tools CP-SAT provides several types of interval variables, for example:
     `new_interval_var`, `new_fixed_size_interval_var`, `new_optional_interval_var`, and `new_optional_fixed_size_interval_var`.
 
-Let $\mathbf{I}_j = [\mathbf{S}_j,\mathbf{C}_j]$ be the interval variable associated with job $j$ with a fixed processing time.
-That is, $\mathbf{S}_j$ and $\mathbf{C}_j$ indicate the start and the completion time of the job, respectively, where $\mathbf{C}_j = \mathbf{S}_j + p_j$ must hold.
+Let variables $\mathbf{S}_j$ and $\mathbf{C}_j$ denote the start and the completion of job $j \in \mahtcal{J}$ and let $\mathbf{I}_j = [\mathbf{S}_j,\mathbf{C}_j]$ be the corresponding interval variable with fixed size $p_j$.
+That is, $\mathbf{C}_j = \mathbf{S}_j + p_j$ must hold.
+
+Let's notice that $\operatorname{UB} = \max_j r_j + \sum_{j=1}^n p_j$ is a valid upper bound on the makespan of the optimal schedule.
+Thus, we can use this value as an upper bound of the variables: $\mathbf{S}_j \in [r_j,\operatorname{UB}-p_j]$ and $\mathbf{C}_j \in [r_j+p_j,\operatorname{UB}]$.
 
 ### Constraints
 
@@ -64,7 +67,7 @@ $$
 The objective is to minimize the weighted sum of completion times:
 
 $$
-\operatorname{minimize} \sum_{j\in \mathcal{J}} w_j\mathbf{C}_j
+\operatorname{minimize} \sum_{j=1}^n w_j\mathbf{C}_j
 $$
 
 ## Implementation

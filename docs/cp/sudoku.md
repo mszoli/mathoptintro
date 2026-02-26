@@ -133,7 +133,7 @@ def _decode_sudoku_string( task:str ) -> list[list[int]]:
 ```python
 import itertools as it
 
-def _solve_sudoku( grid:list[list[int]] ) -> list[list[int]]:
+def _solve_sudoku_cp( grid:list[list[int]] ) -> list[list[int]]:
     """
     Solves Sudoku as CP with OR-Tools CP-SAT.
     

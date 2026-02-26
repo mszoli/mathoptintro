@@ -12,12 +12,11 @@ nav:
     - n-queens:           cp/queens.md
     - Machine scheduling: cp/scheduling.md
     - Rectangle packing:  cp/rectangle.md
- # - Linear programming:
- #   - Introduction: lp/lp.md
- # - Integer programming (MIP):
- #   - Introduction:                mip/mip.md
- #   - n-queens:                    mip/queens.md
- #   - Sudoku:                      mip/sudoku.md
+  - Integer programming (MIP):
+     - Introduction (LP):           mip/lp.md
+     - Introduction (MIP):          mip/mip.md
+     - Sudoku:                      mip/sudoku.md
+     - n-queens:                    mip/queens.md
  #   - Travelling Salesman Problem: mip/tsp.md
  #   - Single Machine Scheduling:   mip/smsp.md
  #   - Parallel Machine Scheduling: mip/upmsp.md

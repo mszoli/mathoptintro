@@ -178,9 +178,44 @@ def _solve_sudoku_mip( grid:list[list[int]] ) -> list[list[int]]:
     """
     from ortools.math_opt.python import mathopt
 
-    print( 'TODO: implement Sudoku MIP solver!' )
+    n = 3 
+    N = range(n*n)
 
-    return grid
+    assert len(grid) == n*n, 'invalid matrix size!'
+
+    # BUILD MODEL
+    model = mathopt.Model()
+
+    # variables: x[i][j][k] = 1 <-> the number k+1 written into cell (i,j)
+    x = [ [ [ model.add_binary_variable( name= f'x_{i}_{j}_{k}' ) for k in N ] for j in N ] for i in N ]
+
+    # constraints: pre-given numbers
+    for (i,j) in it.product(N,N):
+        if grid[i][j] != None:
+            x[i][j][grid[i][j]-1].lower_bound = 1
+    
+    # constraints: exactly one number in a cell
+    for (i,j) in it.product(N,N):
+        model.add_linear_constraint( sum( x[i][j][k] for k in N ) == 1 )
+
+    # constraints: each number occurs exactly once in a row
+    for (i,k) in it.product(N,N):
+        model.add_linear_constraint( sum( x[i][j][k] for j in N ) == 1 )
+
+    # constraints: each number occurs exactly once in a column
+    for (j,k) in it.product(N,N):
+        model.add_linear_constraint( sum( x[i][j][k] for i in N ) == 1 )
+
+    # constraints: each number occurs exactly once in a 3x3 subgrid
+    for (p,q,k) in it.product(range(n),range(n),N):
+       model.add_linear_constraint( sum( x[i+n*p][j+n*q][k] for (i,j) in it.product(range(n),range(n)) ) == 1 )
+
+    # SOLVE PROBLEM
+    result = mathopt.solve( model, solver_type= mathopt.SolverType.HIGHS )
+    assert result.termination.reason == mathopt.TerminationReason.OPTIMAL, f'status: {result.termination.reason.name}'
+
+    # return solution
+    return [ [ sum( (k+1)*int(round(result.variable_values(x[i][j][k]))) for k in N ) for j in N ] for i in N ]
 
 def solve_sudoku( method:Callable, task:str, print_task:bool= False, print_solution:bool= False ) -> str:
     """
