@@ -13,12 +13,15 @@ Also an auxiliary material for the course *Operációkutatás számítógépes m
    ├─ scheduling.py              :   machine scheduling problems [cp]
    ├─ rectangle.py               :   rectangle packing problems [cp]
    ├─ knapsack.py                :   knapsack problem [mip]
+   ├─ tsp_mip.py                 :   traveling salesman problem [mip]
    ├─ puzzles                    :   puzzle exercises [cp|mip]
    │  ├─ taskcollector.py        :     auxiliary task collector for puzzles
    │  ├─ thermometers.py         :     thermometers
    │  ├─ kakurasu.py             :     kakurasu
    │  ├─ binario.py              :     binario (takuzu)
-   │  └─ skyscrapers.py          :     skyscrapers (skylines, towers)
+   │  ├─ skyscrapers.py          :     skyscrapers (skylines, towers)
+   │  ├─ masyu.py                :     masyu
+   │  └─ pipes.py                :     pipes
    ├─ packing_instances.py       :   instance generators for packing problems (knapsack, binpacking)
    ├─ scheduling_instances.py    :   instance generators for scheduling problems
    └─ tsp_instances.py           :   instance generators for the TSP

@@ -17,7 +17,7 @@ nav:
      - Introduction (MIP):          mip/mip.md
      - Sudoku:                      mip/sudoku.md
      - n-queens:                    mip/queens.md
- #   - Travelling Salesman Problem: mip/tsp.md
+     - Travelling Salesman Problem: mip/tsp.md
  #   - Single Machine Scheduling:   mip/smsp.md
  #   - Parallel Machine Scheduling: mip/upmsp.md
   - Puzzles: puzzles/puzzles.md
@@ -28,6 +28,7 @@ theme:
   name: material
   features:
     - content.code.copy
+    - navigation.footer
   palette:
     - media: '(prefers-color-scheme: light)'
       scheme: default

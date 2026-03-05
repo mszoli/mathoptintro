@@ -31,7 +31,8 @@ Utolsó tanítási nap: 2026. május 16. (szombat)
 
 **[2] 2026.02.12.**
 
-Korlátozás programozás: bevezetés, `alldifferent` constraint.
+**Korlátozás programozás**: bevezetés.<br>
+<span style="font-size: 90%; font-style: italic">`alldifferent` constraint</span>
 
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/sendmoremoney.py" target="_blank">`sendmoremoney.py`</a>
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/sudoku.py" target="_blank">`sudoku.py`</a>
@@ -39,14 +40,16 @@ Korlátozás programozás: bevezetés, `alldifferent` constraint.
 
 **[3] 2026.02.19.**
 
-Korlátozás programozás: interval variables, non-overlapping constraints.
+**Korlátozás programozás**: ütemezés és pakolás.<br>
+<span style="font-size: 90%; font-style: italic">interval variables, non-overlapping constraints</span>
 
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/scheduling.py" target="_blank">`scheduling.py`</a> (<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/scheduling_instances.py" target="_blank">`scheduling_instances.py`</a>)
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/rectangle.py" target="_blank">`rectangle.py`</a>
 
 **[4] 2026.02.26.**
 
-Egészértékű programozás: bevezetés.
+**Egészértékű programozás**: bevezetés.<br>
+<span style="font-size: 90%; font-style: italic">constraint generation</span>
 
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/knapsack.py" target="_blank">`knapsack.py`</a>
 (<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/packing_instances.py" target="_blank">`packing_instances.py`</a>)
@@ -55,15 +58,34 @@ Egészértékű programozás: bevezetés.
 
 **[5] 2026.03.05.**
 
+**Egészértékű programozás**: az utazóügynök feladat (TSP) különböző formulációi.<br>
+<span style="font-size: 90%; font-style: italic">constraint generation, extended formulation, big-M formulation, lifting inequalities</span>
+
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_mip.py" target="_blank">`tsp_mip.py`</a>
+(<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_instances.py" target="_blank">`tsp_instances.py`</a>)
+
+[**Első beadandó feladat** ismertetése.](./elte_project1.md)
+
 **[6] 2026.03.12.**
+
+**Egészértékű programozás**: vágás-és-szétválasztás az utazóügynök problémára és egy egygépes ütemezési feladatra.<br>
+<span style="font-size: 90%; font-style: italic">branch-and-cut</span>
 
 **[7] 2026.03.19.**
 
+**Egészértékű programozás**: Benders dekompozíció egy ütemezési feladatra párhuzamos gépekkel.<br>
+<span style="font-size: 90%; font-style: italic">Benders decomposition</span>
+
 **[8] 2026.03.26.**
+
+**Egészértékű programozás**: oszlopgenerálás a ládapakolási feladatra.<br>
+<span style="font-size: 90%; font-style: italic">column generation</span>
 
 **<p style="text-decoration: line-through">[9] 2026.04.02. (Tavaszi szünet)</p>**
 
 **[10] 2026.04.09.**
+
+[**Első beadandó feladat** bemutatása.](./elte_project1.md)
 
 **[11] 2026.04.16.**
 

@@ -88,11 +88,11 @@ def solve_queens_mip( n:int, enumerate_all_solutions:bool= False ) -> None:
     # variables: x[i][j] = 1 if and only if the queen of row i is in column j
     x = [ [ model.add_binary_variable( name= f'x_{i}_{j}' ) for j in range(n) ] for i in range(n) ]
  
-    # constraints: queens cannot share columns
+    # constraints: queens cannot share rows
     for i in range(n):
         model.add_linear_constraint( sum( x[i][j] for j in range(n) ) == 1 )
 
-    # constraints: queens cannot share rows
+    # constraints: queens cannot share columns
     for j in range(n):
         model.add_linear_constraint( sum( x[i][j] for i in range(n) ) == 1 )
 

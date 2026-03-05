@@ -9,7 +9,7 @@ tags:
 # Machine Scheduling with Constraint Programming
 
 Machine scheduling is about to schedule the processing of a set $\mathcal{J}$ of *jobs* on a set $\mathcal{M}$ of *machines* such that each machine can process at most one job at a time, and each job can be processed on at most one machine at a time.
-For a more detailed introduction, check the page [Machine Scheduling](../../intro/scheduling).
+For a more detailed introduction, check the page [Machine Scheduling](../intro/scheduling.md).
 
 Here, we focus on a **single-machine problem** and solve it using constraint programming. 
 We will get familiar with the *interval variables* and the *no-overlap constraints*.

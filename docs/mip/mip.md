@@ -15,17 +15,17 @@ $$
 
 In contrast to LPs, the feasible region of a MIP is not explicitly described as a convex set.
 The feasible solutions are the integer points in an explicitly given polyhedron.
+That is, $P = \{ \mathbf{x} \in \mathbb{R}^n_{0\leq}: A\mathbf{x} \geq b \}$, and the set of integer points is $P_I = P \cap \mathbb{Z}^n$.
 
-The feasible region is the convex hull of these feasible integer points, called the *integer hull*.
-If the coefficients $a_{ij}$ and $b_i$ are rational, then this integer hull is again a polyhedron (although it may require exponentially many inequalities to describe explicitly).
+If the polyhedron $P$ is *rational* (that is, the coefficients $a_{ij}$ and $b_i$ are rational), then the convex hull $\operatorname{conv}(P_I)$ of the integer points is again a polyhedron.
 
 In general, MIP is NP-hard.
-But note, that if we had an explicit linear description of the integer hull with only polynomially many inequalities, then we could solve the problem in polynomial time by linear programming.
 
 ## LP-based branch-and-bound
 
 If some constraints are omitted from a problem, we speak about a *relaxation*.
 The **LP-relaxation** of a MIP is obtained by removing the integrality constraints.
+A feasible solution for the **LP-relaxation** is *integral* if all originaly integer variables take integer value, otherwise it is *fractional*.
 
 The classic way to solve a MIP is the LP-based **branch-and-bound** procedure.
 That is, similarly to [constraint programming](../cp/cp.md), the optimization is embedded into a tree search scheme; however, bounds obtained from LP relaxations are used to prune the search tree.
@@ -47,8 +47,8 @@ The procedure is:
 
     4. If the solution is fractional, we branch. We select a fractional variable, say $\mathbf{x}_i$, and create two child nodes, i.e. two branches,
     
-        - one with the additional constraint $\mathbf{x}_i \leq \lfloor \bar{\mathbf{x}} \rfloor$, 
-        - and one with the constraint $\lceil \bar{\mathbf{x}} \rceil \leq \mathbf{x}_i$.
+        - one with the additional constraint $\mathbf{x}_i \leq \lfloor \bar{\mathbf{x}}_i \rfloor$, 
+        - and one with the constraint $\lceil \bar{\mathbf{x}}_i \rceil \leq \mathbf{x}_i$.
 
 3. Go to the first step.
 
@@ -65,10 +65,42 @@ Modern MIP solvers apply a wide range of techniques to further improve performan
 For example, in the presolve phase, duplciated columns, redundant rows are eliminited, and severel simplification are applied.
 The solvers actually apply a **branch-and-cut** procedure, where solving a node consists of multiple rounds: if the solution is fractional, new constraints (called *cuts*), which cuts off that solution may be added to the corresponding problem.
 
+## Valid inequalities
+
+Note that if we had an explicit linear description of $\operatorname{conv}(P_I)$, we could solve the MIP as a linear program.
+However, this description may be unknown, and/or it requires exponentially many inequalities.
+
+We can, however, strengthen the LP-relaxation of the problem by strengthening the inequalities that define $P$, or by adding another *valid inequlities* (*cuts*) for $P_{I}$.
+(An inequality $\alpha\mathbf{x} \leq \beta$ is a valid, if all points of $P_{I}$ satisfy it).
+Intuitively, the more an inequality cuts from $P$, the stronger it is.
+At best, the inequality touches $\operatorname{conv}(P_I)$, that is, defines a non-empty *face* $F = \operatorname{conv}(P_{I}) \cap \{ \mathbf{x} \in \mathbb{R}^n: \alpha\mathbf{x} = \beta \}$.
+A *facet* is a proper face of maximum possible dimension.
+Facets represent the strongest possible cuts.
+
+### Lifting inequalities
+
+Lifting inequalities is a technique to strengthen valid inequalities for MIPs.
+Roughly speaking, a valid inequality $\alpha\mathbf{x} \leq \beta$ might be strengthened by adding variables with non-negative coefficient (or increasing their coefficients) to the left-hand-side.
+
+More precisely, consider a rational polyhedron $P \subseteq [0,1]^n$, and let $P^0 = P \cap \{ \mathbf{x}: \mathbf{x}_n = 0\}$ and $P^1 = P \cap \{ \mathbf{x}: \mathbf{x}_n = 1\}$.
+Assume that the following is a valid inequality for $P^0_I$ (that defines a face of dimension $k$):
+
+$$
+\sum_{j=1}^{n-1} \alpha_j\mathbf{x}_j \leq \beta
+$$
+
+Assume that $P^1_I$ is not empty.
+Then, with $\alpha := \beta - \max \{ \sum_{j=1}^{n-1} \alpha_j\mathbf{x}_j: \mathbf{x} \in P^1_I \}$, the following is a valid inequality for $P_I$ (that defines a face of dimension $k+1$):
+
+$$
+\alpha\mathbf{x}_n + \sum_{j=1}^{n-1} \alpha_j\mathbf{x}_j \leq \beta
+$$
+
+For the [Traveling Salesman Problem](./tsp.md), we will see an example for lifting inequlaties.
+
+
 ## Solvers
 
-In practice, LPs and MIPs are solved using highly optimized software packages called solvers.
-They differ in performance, licensing model, and supported features.
 See the most popular solvers in the following table.
 
 | Solver                           | License Type                                            | Supported Problem Types |

@@ -277,6 +277,13 @@ char  | tile | description    | char  | tile | description
     The tile-encoding is systematic, not ad-hoc.
 
 For example, the instance shown above is encoded as:
+
 ```python
 pipes_instance = '2426db5746dd8384'
+```
+
+Note that the solution can be encoded in the same way.
+
+```python
+pipes_solution = '881cb75e29de1622'
 ```
