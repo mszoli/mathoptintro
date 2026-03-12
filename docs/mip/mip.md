@@ -36,25 +36,23 @@ The procedure is:
 
 1. If there are no open nodes, we are done. The best found solution is optimal, if any; otherwise the problem is infeasible.
 
-2. We select an open node and solve its LP-relaxation, obtaining a solution $\bar{\mathbf{x}} \in \mathbb{R}^n_{0\leq}$.
+2. We select an open node and solve its LP-relaxation, obtaining a solution $\bar{x} \in \mathbb{R}^n_{0\leq}$.
     The selected node is removed from the set of open nodes.
 
     1. If the LP relaxation is infeasible, the node is pruned.
     
-    2. If the objective value of the LP solution is greater then the current upper bound, i.e., $UB < c\bar{\mathbf{x}}$, we prune the node, since no better solution can be obtained from this branch.
+    2. If the objective value of the LP solution is greater then the current upper bound, i.e., $UB < c\bar{x}$, we prune the node, since no better solution can be obtained from this branch.
     
     3. If the solution is integer, the global upper bound may be updated.
 
     4. If the solution is fractional, we branch. We select a fractional variable, say $\mathbf{x}_i$, and create two child nodes, i.e. two branches,
     
-        - one with the additional constraint $\mathbf{x}_i \leq \lfloor \bar{\mathbf{x}}_i \rfloor$, 
-        - and one with the constraint $\lceil \bar{\mathbf{x}}_i \rceil \leq \mathbf{x}_i$.
+        - one with the additional constraint $\mathbf{x}_i \leq \lfloor \bar{x}_i \rfloor$, 
+        - and one with the constraint $\lceil \bar{x}_i \rceil \leq \mathbf{x}_i$.
 
 3. Go to the first step.
 
-In practice, solvers do not rely on pure branch-and-bound, but instead use a **branch-and-cut approach**.
-At a given node, the LP relaxation may be solved in multiple rounds: if the solution is fractional, additional valid constraints, called *cuts*, are generated and added to the model in order to cut off the current fractional solution.
-
+In practice, solvers do not rely on pure branch-and-bound, but instead use a **branch-and-cut approach**, see later.
 Modern MIP solvers apply a wide range of techniques to further improve performance, for example:
 
 - **Presolve**, where redundant constraints and variables are removed, coefficients are tightened, and the model is simplified before the actual search starts.
@@ -96,8 +94,21 @@ $$
 \alpha\mathbf{x}_n + \sum_{j=1}^{n-1} \alpha_j\mathbf{x}_j \leq \beta
 $$
 
-For the [Traveling Salesman Problem](./tsp.md), we will see an example for lifting inequlaties.
+For the [Traveling Salesman Problem](./tsp.md#lifted-inequalities), we will see an example for lifting inequlaties.
 
+### Branch-and-cut
+
+Branch-and-cut is an extension of the branch-and-bound procedure described above.
+At a given node of the search tree, the LP relaxation may be solved in multiple rounds: if the solution is fractional, additional valid inequalities, called *cuts*, are generated and added to the model in order to cut off the current fractional solution.
+
+Assume that the solution $\bar{x}$ for the LP-relaxation of the current node problem is fractional (Step 2.4.).
+Instead of branching, we attempt to strengthen the LP-relaxation by cutting off this fractional solution.
+To this end, we add a valid inequality $\alpha\mathbf{x} \leq \beta$ to the node problem that separates the fractional solution, that is, $\alpha\bar{x} > \beta$ holds.
+Then, we resolve the LP-relaxation, and after several iterations, if the solution is still fractional, we branch.
+
+For a given class of valid inequalities, the problem of finding an inequality that cuts off the corresponding fractional solution is called **separation**.
+
+We will apply branch-and-cut procedure for the [Traveling Salesman Problem](./tsp.md#branch-and-cut).
 
 ## Solvers
 

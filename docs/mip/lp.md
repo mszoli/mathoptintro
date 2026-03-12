@@ -16,7 +16,7 @@ $$
 A compact way to write the problem is:
 
 $$
-\min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ 0 \leq \mathbf{x} \right\}
+\min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ \mathbf{x} \geq 0 \right\}
 $$
 
 That is, the model consists of:
@@ -51,12 +51,12 @@ $$
 \max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\}
 $$
 
-Consider a $(\bar{\mathbf{x}},\bar{\pi})$ primal-dual solution pair.
-That is, $\bar{\mathbf{x}}$ is a feasible solution for the primal problem, and $\bar{\pi}$ is a feasible solution for the dual problem.
-Clearly, $\bar{\pi}b \leq \bar{\pi}A\bar{\mathbf{x}} \leq c\bar{\mathbf{x}}$, thus,
+Consider a $(\bar{x},\bar{\pi})$ primal-dual solution pair.
+That is, $\bar{x}$ is a feasible solution for the primal problem, and $\bar{\pi}$ is a feasible solution for the dual problem.
+Clearly, $\bar{\pi}b \leq \bar{\pi}A\bar{x} \leq c\bar{x}$, thus,
 
 $$
-\max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\} \leq \min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ 0 \leq \mathbf{x} \right\}
+\max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\} \leq \min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ \mathbf{x} \geq 0 \right\}
 $$
 
 !!! tip "Duality theorem"
@@ -64,7 +64,7 @@ $$
     If the primal problem has an optimal solution, then the dual problem also has an optimal solution, and their objective values are equal:
 
     $$
-    \max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\} = \min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ 0 \leq \mathbf{x} \right\}
+    \max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\} = \min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ \mathbf{x} \geq 0 \right\}
     $$
 
 ## Solution approaches

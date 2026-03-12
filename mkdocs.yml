@@ -18,7 +18,7 @@ nav:
      - Sudoku:                      mip/sudoku.md
      - n-queens:                    mip/queens.md
      - Travelling Salesman Problem: mip/tsp.md
- #   - Single Machine Scheduling:   mip/smsp.md
+     - Single Machine Scheduling:   mip/singlemachine.md
  #   - Parallel Machine Scheduling: mip/upmsp.md
   - Puzzles: puzzles/puzzles.md
  # - Tags: tags.md
@@ -51,6 +51,7 @@ plugins:
       tags_file: tags.md
 
 markdown_extensions:
+  - attr_list
   - admonition
   - codehilite
   - footnotes

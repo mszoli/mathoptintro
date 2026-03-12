@@ -30,10 +30,18 @@ def _log( model:mathopt.Model, result:mathopt.SolveResult, *, ncuts:int= 0, buil
     """
     Prints log.
 
-    Args:
-        - model:  name of the model
-        - status: problem status name
-        - ncuts:  number of cuts (generated constraints)
+    Args
+    ----
+    model: mathopt.Model
+        Model.
+    result: mathopt.SolveResult
+        Solve result.
+    ncuts: int
+        Number of separated subtour elimination constraints, if any.
+    build_time: float
+        Time to build the model.
+    solve_time: float
+        Time to solve the model.
     """
     buffer = [
         f'{model.name:10s}',
@@ -323,7 +331,7 @@ def solve_tsp_gg( graph:nx.DiGraph, solver_type:mathopt.SolverType= mathopt.Solv
 if __name__ == '__main__':
     from tsp_instances import random_euclidean_graph, tetrahedron_instance
 
-    D = random_euclidean_graph( 12 )
+    D = random_euclidean_graph( 42 )
     # D = tetrahedron_instance( 4,4 )
 
     solver_type = mathopt.SolverType.GSCIP # NOTE: HIGHS do not support branch-and-cut!
@@ -332,10 +340,10 @@ if __name__ == '__main__':
     print( 'model      │ status     │  vars │ conss │  cuts │ objval │   build │   solve' )
     print( '───────────┼────────────┼───────┼───────┼───────┼────────┼─────────┼────────' )
 
-    solve_tsp_dfj( D, solver_type= solver_type, draw_solution= True ) # check D with nnodes= 15
-    # solve_tsp_dfj_constraint_generation( D, solver_type= solver_type, draw_solution= True )
-    # solve_tsp_mtz( D, solver_type= solver_type )
-    # solve_tsp_mtz( D, solver_type= solver_type, strengthened= True )
+    # solve_tsp_dfj( D, solver_type= solver_type, draw_solution= True ) # check D with nnodes= 15
+    solve_tsp_dfj_constraint_generation( D, solver_type= solver_type, draw_solution= False )
+    solve_tsp_mtz( D, solver_type= solver_type )
+    solve_tsp_mtz( D, solver_type= solver_type, strengthened= True )
     # solve_tsp_mtz( D, solver_type= solver_type, separation= True )
     # solve_tsp_mtz( D, solver_type= solver_type, strengthened= True, separation= True )
     # solve_tsp_gg( D )

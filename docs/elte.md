@@ -71,6 +71,10 @@ Utolsó tanítási nap: 2026. május 16. (szombat)
 **Egészértékű programozás**: vágás-és-szétválasztás az utazóügynök problémára és egy egygépes ütemezési feladatra.<br>
 <span style="font-size: 90%; font-style: italic">branch-and-cut</span>
 
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_mip.py" target="_blank">`tsp_mip.py`</a>
+(<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_instances.py" target="_blank">`tsp_instances.py`</a>)
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/singlemachine.py" target="_blank">`singlemachine.py`</a> (<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/scheduling_instances.py" target="_blank">`scheduling_instances.py`</a>)
+
 **[7] 2026.03.19.**
 
 **Egészértékű programozás**: Benders dekompozíció egy ütemezési feladatra párhuzamos gépekkel.<br>

@@ -14,6 +14,11 @@ Given a directed graph $D=(V,A)$ and a cost function $c: A\to \mathbb{R}$ define
 In the following sections, we investigate several MIP formulations for the problem.
 Meanwhile, we will become familiar with concepts such as *constraint generation*, *extended formulation*, *big-M formulation*, *lifting inequalities*, *branch-and-cut*, etc.
 
+!!! quote "Classification of MIP formulations for the TSP"
+    Langevin, A., Soumis, F., & Desrosiers, J. (1990).
+    *Classification of travelling salesman problem formulations*.
+    Operations Research Letters, 9(2), 127-132.
+
 !!! quote "Comparison of MIP formulations for the TSP"
     Bazrafshan, R., Hashemkhani Zolfani, S., & Mirzapour Al-e-hashem, S. M. J. (2021).
     *Comparison of the sub-tour elimination methods for the asymmetric traveling salesman problem applying the SECA method*.
@@ -177,7 +182,7 @@ $$
     *Improvements and extensions to the Miller-Tucker-Zemlin subtour elimination constraints*.
     Operations Research Letters, 10(1), 27-36.
 
-The MTZ SECs can be strengthed by a [lifting procedure](./mip.md).
+The MTZ SECs can be strengthed by a [lifting procedure](./mip.md#lifting-inequalities).
 
 Consider the SEC corresponding to arc $(i,j)$ with $j\neq s$.
 Clearly, only the reverse arc variable $\mathbf{x}_{ji}$, if exists, can be a candidate for lifting, since the other arcs are, in general, "independent" of $(i,j)$.
@@ -187,8 +192,9 @@ $$
 \mathbf{y}_i - \mathbf{y}_j + (n-1)\mathbf{x}_{ij} + \alpha\mathbf{x}_{ji} \leq n - 2
 $$
 
+Assume that $n>2$.
 If $\mathbf{x}_{ji} = 0$ in a solution, we obtain the original, valid inequality independently from the value of $\alpha$.
-Otherwise, if $\mathbf{x}_{ji} = 1$, then $\mathbf{y}_i - \mathbf{y}_j \geq 1$ and $(n-1)\mathbf{x}_{ij} = 0$, thus we have $\alpha \leq n - 3$.
+Otherwise, if $\mathbf{x}_{ji} = 1$, then $\mathbf{y}_i - \mathbf{y}_j = 1$ and $(n-1)\mathbf{x}_{ij} = 0$, thus we have $\alpha \leq n - 3$.
 
 Then, the lifted MTZ inequalities are:
 
@@ -203,7 +209,30 @@ Note that these inequalities define facets of the corresponding TSP polytope for
 In the previous sections, we saw that the DFJ SECs are strong but numerous, while the MTZ SECs are few but weak.
 How can we combine their advantages?
 
-Let us use the MTZ formulation as the base model and strengthen its LP relaxation by dynamically adding DFJ subtour elimination constraints.
+Let us take the MTZ formulation as the base model and strengthen its LP relaxation by dynamically adding DFJ subtour elimination constraints within a [**branch-and-cut**](../mip/mip.md#branch-and-cut) scheme.
+
+!!! tip "Callback for branch-and-cut"
+    Several solvers support branch-and-cut callbacks that allow generating custom cuts during the global search.
+
+    In OR-Tools MathOpt, a `SolveCallback` can be defined and passed to the `solve` method.
+    Note that the `Event.MIP_NODE` event must also be registered.
+    Also note that currently only the GUROBI and GSCIP solvers support branch-and-cut callbacks.
+
+Assume that the solution $(\bar{x},\bar{y})$ for the LP-relaxation of the current node problem is fractional.
+Instead of branching, we first attempt to strengthen the LP-relaxation by cutting off this fractional solution.
+To this end, we separate the DFJ SECs, that is, we look for an inequality (i.e., a non-empty subset $S$ of nodes) such that:
+
+$$
+\sum_{(i,j)\in A:\ i\in S,\ j\notin S} \bar{x}_{ij} < 1
+$$
+
+In other words, for the subset $S$, the sum of $\bar{x}$-values on the outgoing arcs is less than 1.
+
+Thus, the separation problem of checking whether there are such violated inequalities, can be reduced to checking whether the minimum cut in the graph with respect to arc weights $\bar{x}$ is less than 1.
+For this, we can check the minimum cut between all pairs of nodes.
+
+!!! note "Separation of DFJ subtour elimination constraints"
+    Note that the proposed branch-and-cut procedure is independent of the MTZ formulation and can therefore be applied to any TSP formulation (using the $\mathbf{x}$ variables).
 
 ## Gavish–Graves (GG) formulation
 
@@ -239,3 +268,5 @@ The implementation of the models can be found in <a href="https://github.com/hma
 ### Exercises
 
 1. Implement the Gravish-Graves formulation in function `solve_tsp_gg`.
+
+2. Implement the branch-and-cut procedure for the Gravish-Graves formulation that separates the DFJ subtour elimination constraints.
