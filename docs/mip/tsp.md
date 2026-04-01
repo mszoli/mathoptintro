@@ -130,7 +130,7 @@ $$
 
 By this, the solution will be a single tour.
 Otherwise, there is a subtour that does not contain the start node $s$, say $i_1 \to i_2 \to \ldots \to i_k \to i_1$.
-Then, $\mathbf{y}_{i_1} < \mathbf{y}_{i_2} < \ldots < \mathbf{y}_{i_k} < \mathbf{y}_{i_1}$, which is a constradiction.
+Then, $\mathbf{y}_{i_1} < \mathbf{y}_{i_2} < \ldots < \mathbf{y}_{i_k} < \mathbf{y}_{i_1}$, which is a contradiction.
 
 Also note that in any integral solution, each $\mathbf{y}$-variable also takes an integral value (from $0,1,\ldots,n−1$).
 And thus, if $\mathbf{x}_{ij} = 1$ ($j \neq s$), then $\mathbf{y}_i + 1 = \mathbf{y}_j$.

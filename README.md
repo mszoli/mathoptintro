@@ -15,6 +15,8 @@ Also an auxiliary material for the course *Operációkutatás számítógépes m
    ├─ knapsack.py                :   knapsack problem [mip]
    ├─ tsp_mip.py                 :   traveling salesman problem [mip]
    ├─ singlemachine.py           :   single machine scheduling [mip]
+   ├─ parallelmachines.py        :   parallel machine scheduling [mip]
+   ├─ binpacking.py              :   bin packing problem [mip]
    ├─ puzzles                    :   puzzle exercises [cp|mip]
    │  ├─ taskcollector.py        :     auxiliary task collector for puzzles
    │  ├─ thermometers.py         :     thermometers

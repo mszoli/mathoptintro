@@ -19,7 +19,8 @@ nav:
      - n-queens:                    mip/queens.md
      - Travelling Salesman Problem: mip/tsp.md
      - Single Machine Scheduling:   mip/singlemachine.md
- #   - Parallel Machine Scheduling: mip/upmsp.md
+     - Parallel Machine Scheduling: mip/parallelmachines.md
+     - Bin Packing Problem:         mip/binpacking.md
   - Puzzles: puzzles/puzzles.md
  # - Tags: tags.md
   - For my students 🇭🇺: elte.md

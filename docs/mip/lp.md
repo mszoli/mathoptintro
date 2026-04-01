@@ -51,8 +51,7 @@ $$
 \max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\}
 $$
 
-Consider a $(\bar{x},\bar{\pi})$ primal-dual solution pair.
-That is, $\bar{x}$ is a feasible solution for the primal problem, and $\bar{\pi}$ is a feasible solution for the dual problem.
+Consider a $(\bar{x},\bar{\pi})$ primal-dual solution pair, that is, $\bar{x}$ is a feasible solution for the primal problem, and $\bar{\pi}$ is a feasible solution for the dual problem.
 Clearly, $\bar{\pi}b \leq \bar{\pi}A\bar{x} \leq c\bar{x}$, thus,
 
 $$
@@ -98,3 +97,77 @@ Later, **interior-point methods** combined the polynomial time guarantees with s
     Karmarkar, N. (1984).
     *A new polynomial-time algorithm for linear programming*.
     Combinatorica, 4(4), 373-395.
+
+## Column Generation
+
+Recall the primal-dual pair:
+
+$$
+\begin{align*}
+z_P &= \min \left\{ c\mathbf{x}\ :\ A\mathbf{x} \geq b,\ \mathbf{x} \geq 0 \right\}\\
+z_D &= \max \left\{ \pi b\ :\ \pi A \leq c,\ 0 \leq \pi \right\}
+\end{align*}
+$$
+
+Now suppose that the number of variables (columns), $n$, is extremely large.
+In that case, solving the full LP directly may be impractical, since we cannot explicitly include all columns in the model.
+
+There is a good news!
+The key observation is that an LP with $m$ constraints has an optimal basic feasible solution in which at most $m$ variables are basic.
+Therefore, even if the full model contains a huge number of columns, an optimal solution typically uses only a relatively small subset of them.
+
+This motivates the idea of column generation:
+instead of solving the full problem with all columns, we start with a restricted subset of columns and generate additional columns only when they are needed.
+
+### Restricted Master Problem
+
+Let $A'$ be a matrix consisting of only a subset of the columns of $A$ (and let $c'$ contain the objective coefficients of the selected columns).
+The corresponding *restricted master problem* (RMP) is:
+
+$$
+\begin{align*}
+z'_P &= \min \left\{ c\mathbf{x}\ :\ A'\mathbf{x} \geq b,\ \mathbf{x} \geq 0 \right\}\\
+z'_D &= \max \left\{ \pi b\ :\ \pi A' \leq c,\ 0 \leq \pi \right\}
+\end{align*}
+$$
+
+Due to the restrictions, and applying the strong duality, we have:
+
+$$
+z_D = z_P \leq z'_P = z'_D
+$$
+
+Let $(\bar{x}, \bar{\pi})$ be an optimal primal-dual solution pair for the restricted master problem.
+If we extend $\bar{x}$ by setting all non-generated variables to zero, we obtain a feasible solution for the full primal (master) problem with the same objective value.
+
+Similarly, the dual solution $\bar{\pi}$ yields the same value $\bar{\pi}b$ as in the restricted problem.
+However, $\bar{\pi}$ is not necessarily feasible for the full dual (master) problem.
+But if so, then we have $z_D = z_P = z'_P = z'_D$, therefore $((\bar{x},0),\bar{\pi})$ is an **optimal** primal-dual solution pair for the original problem.
+
+The crucial question is whether $\bar{\pi}$ is also feasible for the dual master problem...
+
+### Column generation (variable pricing)
+
+So, we need to check whether $\bar{\pi}$ is feasible for the master dual, that is, for each column $a_j$, $\bar{\pi}a_j \leq c_j$ holds.
+
+If there exists a column $a_j$ with negative *reduced cost* $\bar{c}_j = c_j - \bar{\pi}a_j$, then the current solution is not yet optimal for the master problem, so it should be added to the RMP.
+Finding a column with negative reduced cost is called the **pricing problem**.
+
+The overall column generation procedure is therefore:
+
+1. Start with a restricted set of columns and solve the RMP.
+2. Obtain the optimal dual solution $\bar{\pi}$ of the RMP.
+3. Solve the pricing problem to search for a column with negative reduced cost.
+4. If such a column exists, add it to the RMP and repeat.
+5. If no improving column exists, stop: the current solution is optimal for the master LP.
+
+``` mermaid
+flowchart LR
+    Start([start]) --> BuildMaster[build RMP]
+    BuildMaster --> SolveMaster[solve RMP<br>π'←dual]
+    SolveMaster --> SolveSub[solve pricing problem]
+    SolveSub --> AllFeasible{π'A≤c?}
+    AllFeasible -- yes --> Stop([stop])  
+    AllFeasible -- no --> NewColumn["Add column(s) with<br>negative reduced costs"]
+    NewColumn --> SolveMaster
+```

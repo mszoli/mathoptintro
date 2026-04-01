@@ -6,7 +6,8 @@ from ortools.math_opt.python import mathopt
 from time import perf_counter
 
 # EXERCISES
-# 1. Implement the Gravish-Graves formulation in function solve_tsp_gg.
+# 1.1 Implement the Gravish-Graves formulation in function solve_tsp_gg.
+# 1.2 Implement the branch-and-cut procedure for the Gravish-Graves formulation.
 
 def _draw_graph( graph:nx.DiGraph, edge_labels= None ) -> None:
     """
@@ -308,7 +309,7 @@ def solve_tsp_mtz( graph:nx.DiGraph, solver_type:mathopt.SolverType= mathopt.Sol
     if draw_solution and result.termination.reason in [mathopt.TerminationReason.OPTIMAL, mathopt.TerminationReason.FEASIBLE]:
         _draw_graph( graph.edge_subgraph( edge for edge in graph.edges if 0.9 < x[edge].x ) )
 
-def solve_tsp_gg( graph:nx.DiGraph, solver_type:mathopt.SolverType= mathopt.SolverType.GSCIP, draw_instance:bool= False, draw_solution:bool= False ) -> None:
+def solve_tsp_gg( graph:nx.DiGraph, solver_type:mathopt.SolverType= mathopt.SolverType.GSCIP, draw_instance:bool= False, separation:bool= False, draw_solution:bool= False ) -> None:
     """
     Solves TSP as a MIP (GG formulation) with **OR-Tools MathOpt**.
 
@@ -320,7 +321,10 @@ def solve_tsp_gg( graph:nx.DiGraph, solver_type:mathopt.SolverType= mathopt.Solv
     graph: nx.DiGraph
         A digraph where each edge has the attribute 'cost'.
     solver_type: mathopt.SolverType
-        The underlying solver to use (e.g., GSCIP, HIGHS, GUROBI).
+        The underlying solver to use (e.g., GSCIP, GUROBI).
+        NOTE that HIGHS does not support branch-and-cut.
+    separation: bool
+        Should we separate subtour-elimination constraints?
     draw_instance: bool
         Should we draw the instance graph?
     draw_solution:
@@ -331,7 +335,7 @@ def solve_tsp_gg( graph:nx.DiGraph, solver_type:mathopt.SolverType= mathopt.Solv
 if __name__ == '__main__':
     from tsp_instances import random_euclidean_graph, tetrahedron_instance
 
-    D = random_euclidean_graph( 42 )
+    D = random_euclidean_graph( 12 )
     # D = tetrahedron_instance( 4,4 )
 
     solver_type = mathopt.SolverType.GSCIP # NOTE: HIGHS do not support branch-and-cut!
@@ -340,12 +344,13 @@ if __name__ == '__main__':
     print( 'model      │ status     │  vars │ conss │  cuts │ objval │   build │   solve' )
     print( '───────────┼────────────┼───────┼───────┼───────┼────────┼─────────┼────────' )
 
-    # solve_tsp_dfj( D, solver_type= solver_type, draw_solution= True ) # check D with nnodes= 15
-    solve_tsp_dfj_constraint_generation( D, solver_type= solver_type, draw_solution= False )
-    solve_tsp_mtz( D, solver_type= solver_type )
-    solve_tsp_mtz( D, solver_type= solver_type, strengthened= True )
+    solve_tsp_dfj( D, solver_type= solver_type, draw_solution= True ) # check D with nnodes= 15
+    # solve_tsp_dfj_constraint_generation( D, solver_type= solver_type, draw_solution= False )
+    # solve_tsp_mtz( D, solver_type= solver_type )
+    # solve_tsp_mtz( D, solver_type= solver_type, strengthened= True )
     # solve_tsp_mtz( D, solver_type= solver_type, separation= True )
     # solve_tsp_mtz( D, solver_type= solver_type, strengthened= True, separation= True )
-    # solve_tsp_gg( D )
+    # solve_tsp_gg( D, separation= False )
+    # solve_tsp_gg( D, separation= True )
 
     print( '───────────┴────────────┴───────┴───────┴───────┴────────┴─────────┴────────' )
