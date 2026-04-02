@@ -1,12 +1,18 @@
 from ortools.math_opt.python import mathopt
 import math
 import networkx as nx
+import matplotlib.pyplot as plt
 
 DXY_VECTOR = [(-1, 0), (0, 1), (1, 0), (0, -1)] # just to help with directions
 DRAWING_MAP = {
     'W': '○',
     'B': '●',
     '.': '·',
+}
+COLORS_MAP = {
+    'W': 'white',
+    'B': 'black',
+    '.': 'gray',
 }
 
 def _decode_masyu_task(task: str) -> tuple[int, list, dict]:
@@ -47,7 +53,31 @@ def _draw_masyu(n: int, circles: dict, used_edges: list = None) -> None:
                 line += '|' if ((cell, (i+1, j)) in used_edge_set or ((i+1, j), cell) in used_edge_set) else ' '
                 if j + 1 < n:
                     line += ' '
-            print(line)        
+            print(line)
+
+def _draw_masyu_nx(n: int, circles: dict, used_edges: list = None) -> None:
+    G = nx.grid_2d_graph(n, n)
+    if used_edges is not None:
+        G.add_edges_from(used_edges)
+    # so that we adjust to the nx coordinate system...
+    pos = {(i, j): (j, -i) for i in range(n) for j in range(n)}
+    node_colors = [COLORS_MAP[circles.get((i, j), '.')] for i in range(n) for j in range(n)]
+    edge_colors = []
+    edge_widths = []
+    for a, b in G.edges():
+        if used_edges is not None and ((a, b) in used_edges or (b, a) in used_edges):
+            edge_colors.append('red')
+            edge_widths.append(5)
+        else:
+            edge_colors.append('gray')
+            edge_widths.append(1)
+    fig, ax = plt.subplots(figsize=(10, 10))
+    node_size = 500 if n <= 10 else 100
+    nx.draw(G, pos=pos, ax=ax, with_labels=False, node_color=node_colors, edge_color=edge_colors, width=edge_widths, node_size=node_size)
+    fig.set_facecolor('lightgreen')
+    ax.set_facecolor('lightgreen')
+    plt.show()
+
 
 def _edge_var(n: int, x: dict, a: tuple[int, int], b: tuple[int, int]) -> mathopt.Variable | None:
     if a[0]<0 or a[0]>=n or a[1]<0 or a[1]>=n:
@@ -149,7 +179,7 @@ def solve_masyu(task:str, draw_task:bool= False, draw_solution:bool= False) -> N
 
     if draw_task:
         print('task:')
-        _draw_masyu(n, circles)
+        _draw_masyu_nx(n, circles)
 
     edges = []
     incident_edges = {cell: [] for cell in cells}
@@ -186,7 +216,7 @@ def solve_masyu(task:str, draw_task:bool= False, draw_solution:bool= False) -> N
 
     used_edges = [edge for edge in edges if result.variable_values(x[edge]) > 0.5]
     if draw_solution:
-        _draw_masyu(n, circles, used_edges)
+        _draw_masyu_nx(n, circles, used_edges)
 
 if __name__ == '__main__':
     TASKS = [
