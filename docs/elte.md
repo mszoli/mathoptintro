@@ -104,7 +104,12 @@ Utolsó tanítási nap: 2026. május 16. (szombat)
 
 **[12] 2026.04.23.**
 
-Lokális keresés: alapok, tabu keresés, szimulált lehűtés, genetikus algoritmus
+**Lokális keresés**: alapok, tabu keresés, szimulált lehűtés, genetikus algoritmus<br>
+<span style="font-size: 90%; font-style: italic">local search heuristics</span>
+
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_ls_1.py" target="_blank">`tsp_ls_1.py`</a>
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_ls_2.py" target="_blank">`tsp_ls_2.py`</a>
+(<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_instances.py" target="_blank">`tsp_instances.py`</a>)
 
 **[13] 2026.04.30.**
 
