@@ -220,4 +220,37 @@ Note that the solution might be post-processed to ensure that each trip is assig
 
 ---
 
-## Task #3: TBA
+## Task #3: Dynamic Vehicle Routing
+
+The goal is to implement a **simulator** for a dynamic vehicle routing problem.
+
+---
+
+### Sketch of the problem
+
+A restaurant offers home delivery. The restaurant has a few in-house couriers who deliver the orders that arrive continuously throughout the day. A courier can pick up multiple orders at the restaurant and deliver them in a single route, after which they return to the restaurant and, if needed, can carry out further deliveries.
+
+However, a delivery route cannot be interrupted: a courier cannot return to the restaurant to pick up new orders until all previously collected orders have been delivered.
+
+---
+
+### Mini-project
+
+1. Define the problem freely, but precisely. Specify travel times, locations, whether food preparation time, parking, or any other factors are taken into account, etc.
+
+2. Decide what policy will be used to assign orders to couriers, that is, what delivery routes will be planned. It may be useful to define some metric for evaluating the solution, for example customer satisfaction: do customers receive their orders within one hour? Or how much later do they receive them? etc.
+
+3. The solution must be implemented via the `simpy` package.
+It may be useful to reuse parts of the example discussed in class.
+
+    1. You will need a function that generates orders on the fly.
+
+    2. You will need a function that assigns deliverable orders among the couriers. There are two cases in which it may be worthwhile to plan routes:
+    
+        (i) when a new order arrives and there is an available courier;
+        
+        (ii) when a courier returns to the restaurant and there are still undelivered orders.
+
+    3. You will need a function that executes, that is, simulates, a route assigned to a courier. It may be useful to organize the vehicles — that is, the couriers — into a separate class.
+
+4. Create a report that consists of the description of the problem; a brief description of how the simulator works; and a short analysis (for example, what happens if the number of vehicles is changed, or if a different assignment policy is used, or any similar variations).
