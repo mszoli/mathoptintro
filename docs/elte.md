@@ -113,7 +113,10 @@ Utolsó tanítási nap: 2026. május 16. (szombat)
 
 **[13] 2026.04.30.**
 
-Dinamikus járműútvonal tervezés
+**Dinamikus járműútvonal tervezés**<br>
+<span style="font-size: 90%; font-style: italic">dynamic routing</span>
+
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/dvrp.py" target="_blank">`dvrp.py`</a>
 
 **<p style="text-decoration: line-through">[14] 2026.05.07. (Eötvös nap)</p>**
 
