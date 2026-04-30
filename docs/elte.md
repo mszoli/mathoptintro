@@ -89,7 +89,8 @@ Utolsó tanítási nap: 2026. május 16. (szombat)
 <span style="font-size: 90%; font-style: italic">column generation</span>
 
 <a href="https://github.com/hmarko89/mathoptintro/blob/master/src/binpacking.py" target="_blank">`binpacking.py`</a>
-(<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/packing_instances.py" target="_blank">`packing_instances.py`</a>)
+(<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/packing_instances.py" target="_blank">`packing_instances.py`</a> 
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/knapsack.py" target="_blank">`knapsack.py`</a>)
 
 **<p style="text-decoration: line-through">[9] 2026.04.02. (Tavaszi szünet)</p>**
 
@@ -97,15 +98,31 @@ Utolsó tanítási nap: 2026. május 16. (szombat)
 
 [**Első beadandó feladat** bemutatása.](./elte_project1.md)
 
-**[11] 2026.04.16.**
+**<p style="text-decoration: line-through">[11] 2026.04.16. (Apaszabadság)</p>**
+
+[**Második beadandó feladat** ismertetése.](./elte_project2.md)
 
 **[12] 2026.04.23.**
 
+**Lokális keresés**: alapok, tabu keresés, szimulált lehűtés, genetikus algoritmus<br>
+<span style="font-size: 90%; font-style: italic">local search heuristics</span>
+
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_ls_1.py" target="_blank">`tsp_ls_1.py`</a>
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_ls_2.py" target="_blank">`tsp_ls_2.py`</a>
+(<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/tsp_instances.py" target="_blank">`tsp_instances.py`</a>)
+
 **[13] 2026.04.30.**
+
+**Dinamikus járműútvonal tervezés**<br>
+<span style="font-size: 90%; font-style: italic">dynamic routing</span>
+
+<a href="https://github.com/hmarko89/mathoptintro/blob/master/src/dvrp.py" target="_blank">`dvrp.py`</a>
 
 **<p style="text-decoration: line-through">[14] 2026.05.07. (Eötvös nap)</p>**
 
 **[15] 2026.05.14.**
+
+[**Második beadandó feladat** bemutatása.](./elte_project2.md)
 
 ## Elérhetőség
 

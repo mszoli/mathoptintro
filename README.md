@@ -1,6 +1,6 @@
 # mathoptintro
 
-[A Practical Introduction to the Theory of Mathematical Optimization.](hmarko89.github.io/mathoptintro/)
+<a href="https://hmarko89.github.io/mathoptintro/">A Practical Introduction to the Theory of Mathematical Optimization.</a>
 
 Also an auxiliary material for the course *Operációkutatás számítógépes módszerei* at ELTE.
 
