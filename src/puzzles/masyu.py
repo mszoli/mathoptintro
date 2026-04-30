@@ -156,10 +156,17 @@ def _find_solution_components(result: mathopt.SolveResult, x: dict, y: dict, cel
     components = list(nx.connected_components(G))
     return components
 
-def _add_DFJ_cuts(model: mathopt.Model, x: dict, edges: list, components: list) -> None:
+def _add_DFJ_cuts(model: mathopt.Model, x: dict, edges: list, circles: dict, components: list) -> None:
     for component in components:
-        component_edges = [edge for edge in edges if edge[0] in component and edge[1] in component]
-        model.add_linear_constraint(sum(x[edge] for edge in component_edges) <= len(component)-1)
+        # check that actually this component covers all circles:
+        covers_all_circles = True
+        for c in circles:
+            if c not in component:
+                covers_all_circles = False
+
+        if not covers_all_circles:
+            component_edges = [edge for edge in edges if edge[0] in component and edge[1] in component]
+            model.add_linear_constraint(sum(x[edge] for edge in component_edges) <= len(component)-1)
 
 def solve_masyu(task:str, draw_task:bool= False, draw_solution:bool= False) -> None:
     """
@@ -211,7 +218,7 @@ def solve_masyu(task:str, draw_task:bool= False, draw_solution:bool= False) -> N
         if len(components) == 1:
             # letsgooo done!!!
             break
-        _add_DFJ_cuts(model, x, edges, components)
+        _add_DFJ_cuts(model, x, edges, circles, components)
         num_DFJ_cuts += len(components)
 
     used_edges = [edge for edge in edges if result.variable_values(x[edge]) > 0.5]
